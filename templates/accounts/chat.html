@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    {% load static %}
+   
+    <title>Secure Communication Using Quantum Key Distribution</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/index.css' %}">
+  </head>
+  <body>
+    <div id="wrapper"style="width: 1350px; margin-left: -10px;" >
+
+      <div id="first" style="margin-top: -200px;width: 1350px;float: left;">
+        
+
+        <div id="div11" style="margin-top: 15px;">
+        {% if user.is_authenticated %}
+        <h1 >HELLO!!  &nbsp;   {{ user.first_name}} </h1>
+        
+        {% else %}
+        <h1 >Secure Communication Using Quantum Key Distribution</h1>
+        
+        {% endif %}
+        </div>
+        </div>
+      <div id="menu" style="height: 50px;background-color: black;float: left;margin-top: -50px;width: 1350px;">
+    <div id="menu4" style="margin-top: 20px;background-color: black; width: 1350px">
+      <ul>
+      <li><a href="{% url 'home' %}">HOME</a></li>
+      {% if user.is_authenticated %}
+
+      {% else %}
+      <li><a href="{% url 'accounts:register' %}">SIGN UP</a></li>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'accounts:logout' %}">LOGOUT</a></li>
+      {% else %}
+      <li><a href="{% url 'accounts:login' %}">LOGIN</a></li>
+      {% endif %}
+
+      </ul>
+    </div>
+    </div>
+      
+
+
+    <div id = "div21" style="margin-top:200px; width: 1350px;min-height:360px;height:auto;background-color: green;">
+    <div id = "content1" style="min-height:360px;height:auto; width: 500px;  float: left;">
+      
+      {% if user.is_authenticated %}
+
+      <table>
+      {% for i in profiles %}
+      <a href="{% url 'accounts:chat' user.id i.id%}">
+      <button style="width:350px; height: 50px;">
+      {{i.user}} </button>
+      </a><br/>
+      {% endfor %}
+        
+      </table>
+
+      {% else %}
+
+      {% endif %}
+      
+    </div>
+    <div id ="content2" style="min-height:360px;height:auto; width: 650px;  float: left;">
+</h2><br/><br/>
+      <h2>{{ r_name}}</h2><br/>
+      
+      {{r_msg.r_msg_body}}&nbsp;&nbsp;&nbsp;&nbsp;
+
+      {% if r_seen == True %}
+
+      <a href="{% url 'accounts:decrypt' user.id idx r_msg.id r_msg.index %}">Decrypt Message</a>
+      {% endif %}
+    {% if seen == False %}
+      {% if add == 0 %}
+      <h3><!-- Sender : {{ msg.sender}} --><br/>
+      <!-- Receiver : {{ msg.receiver }} --><br/>
+      Message : {{msg.s_msg_body}}<br/></h3>
+
+<form method="post" action="{% url 'accounts:reviews' user.id idx add  %}">{% csrf_token %}
+  <h3>Write Message:</h3> <textarea name="message" placeholder="Enter your message here..." style="width:300px; height: 60px;"></textarea>
+
+  <button onclick = "#" style="width:100px; height: 35px; background-color: green">Send Message</button>
+</form>
+
+
+      
+    {% else %}
+
+      <form method="post" action="{% url 'accounts:reviews' user.id idx add  %}">{% csrf_token %}
+      <h3>Write Message:</h3> <textarea name="message" placeholder="Enter your message here..." style="width:300px; height: 60px;"></textarea>
+
+      <button onclick = "#" style="width:100px; height: 35px; background-color: green">Send Message</button>
+      </form>
+    {% endif %}
+    {% else %}
+      <h3><!-- Sender : {{ msg.sender}} --><br/>
+      <!-- Receiver : {{ msg.receiver }} --><br/>
+      Message : {{msg.s_msg_body}}
+      </h3>
+      <h4>Message Not Seen Yet!!!</h4>
+    {% endif %}
+
+    
+    </div>
+    </div>
+
+
+
+      
+
+    </div>
+    </body>
+</html>
